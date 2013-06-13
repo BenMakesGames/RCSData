@@ -1,0 +1,36 @@
+{% extends 'RCSDataBundle::base.html.twig' %}
+
+{% block content %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+        var googleMap;
+
+        $(function() {
+            var mapOptions = {
+                zoom: 12,
+                center: new google.maps.LatLng({{ center.latitude }}, {{ center.longitude }}),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            googleMap = new google.maps.Map(document.getElementById('report-map'), mapOptions);
+
+            $.getJSON(
+                '{{ path('report_data') }}',
+                {},
+                function(data)
+                {
+                    $.each(data.reports, function(i, report) {
+                        new google.maps.Marker({
+                            position: new google.maps.LatLng(report.latitude, report.longitude),
+                            map: googleMap,
+                            title: report.title
+                        });
+                    });
+                }
+            );
+        });
+    </script>
+    <h1>Map</h1>
+    <div id="report-map" style="height:300px;">
+    </div>
+{% endblock %}

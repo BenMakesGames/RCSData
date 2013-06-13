@@ -1,0 +1,44 @@
+#!/bin/sh
+
+if [ $# -eq 1 ]; then
+  if [ $1 == "vendors" ] || [ $1 == "vendor" ]; then
+    php composer.phar update
+    exit 0
+  elif [ $1 == "composer" ]; then
+    php composer.phar self-update
+    exit 0
+  elif [ $1 == "assets" ]; then
+    php app/console assets:install
+    exit 0
+  elif [ $1 == "cache" ]; then
+    rm -rf app/cache/*
+    echo "All files and directories in app/cache have been deleted."
+    exit 0
+  elif [ $1 == "db" ] || [ $1 == "database" ]; then
+    php app/console doctrine:schema:update --force
+    echo "Database has been updated from Entity files."
+    exit 0
+  elif [ $1 == "permissions" ]; then
+    setfacl -R -m u:apache:rwX -m u:`whoami`:rwX app/cache app/logs
+    setfacl -dR -m u:apache:rwx -m u:`whoami`:rwx app/cache app/logs
+    echo "Permissions set for app/cache and app/logs via setfacl."
+    exit 0
+  fi
+fi
+
+echo "================================================================================"
+echo "Usage: update COMMAND"
+echo
+echo "COMMAND may be:"
+echo "  vendors       runs \"php composer.phar update\""
+echo "  db            runs \"app/console doctrine:schema:update --force\""
+echo "  database      same as above"
+echo "  assets        runs \"app/console assets:install\""
+echo "  cache         completely empties the app/cache directory"
+echo "  permissions   sets up permissions nicely, especially for the cache directory;"
+echo "                assumes your web user is named \"apache\" (default for httpd)"
+echo "  composer      updates composer.phar (\"php composer.phar self-update\")"
+echo
+echo "Note: update MUST be run from the root directory of the project - as \"./update\""
+echo "================================================================================"
+exit 1

@@ -1,0 +1,33 @@
+{% extends 'RCSDataBundle::base.html.twig' %}
+
+{% block content %}
+<script>
+    // if we're missing lat or long data, fetch it!
+    $(function() {
+        if($('#form_latitude').val() == '' || $('#form_longitude').val() == '')
+        {
+            if(navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition)
+            {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+
+                    $('#form_latitude').val(latitude);
+                    $('#form_longitude').val(longitude);
+                });
+            }
+        }
+
+        $('form .button.cancel').click(function(e) {
+            e.preventDefault();
+            location.href = '{{ path('report_map') }}';
+        });
+    });
+</script>
+<h1>{{ title }}</h1>
+<form action="" method="post" {{  form_enctype(form) }}>
+    {{ form_widget(form) }}
+
+    <input type="button" class="button cancel" value="Cancel" /> <input class="button" type="submit" value="Submit" />
+</form>
+{% endblock %}

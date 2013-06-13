@@ -1,0 +1,5 @@
+rcs_data:
+    resource: "@RCSDataBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
