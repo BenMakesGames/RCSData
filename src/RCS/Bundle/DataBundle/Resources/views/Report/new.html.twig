@@ -9,11 +9,11 @@
             if(navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition)
             {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    latitude = position.coords.latitude;
-                    longitude = position.coords.longitude;
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
 
-                    $('#form_latitude').val(latitude);
-                    $('#form_longitude').val(longitude);
+                    $('#new_report input[name="latitude"]').val(latitude);
+                    $('#new_report input[name="longitude"]').val(longitude);
                 });
             }
         }
@@ -25,7 +25,7 @@
     });
 </script>
 <h1>{{ title }}</h1>
-<form action="" method="post" {{  form_enctype(form) }}>
+<form action="" method="post" id="new_report" class="normal-form" {{  form_enctype(form) }}>
     {{ form_widget(form) }}
 
     <input type="button" class="button cancel" value="Cancel" /> <input class="button" type="submit" value="Submit" />

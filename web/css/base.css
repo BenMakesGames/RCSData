@@ -168,7 +168,9 @@ label
     font-size: 14px;
 }
 
-label + input
+form.normal-form label + input,
+form.normal-form label + select,
+form.normal-form label + textarea
 {
     margin-bottom: 16px;
 }
@@ -180,11 +182,26 @@ label + input
     border-radius: 5px 5px 5px 5px;
     display: block;
     left: 50%;
-    margin-left: -213px;
+    margin-left: -163px;
     padding: 5px 10px;
     position: absolute;
     text-align: center;
     top: 22px;
-    width: 400px;
+    width: 300px;
     cursor: pointer;
+}
+
+form.search-form
+{
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 16px;
+}
+
+form.search-form div
+{
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
 }

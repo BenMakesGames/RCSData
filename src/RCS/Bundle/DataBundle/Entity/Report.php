@@ -42,6 +42,38 @@ class Report
      */
     private $timestamp;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="year", type="integer")
+     */
+    private $year;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="month", type="integer")
+     */
+    private $month;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="day", type="integer")
+     */
+    private $day;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="ph", type="decimal", precision=4, scale=2)
+     */
+    private $ph;
+
+    public function get($field)
+    {
+        return $this->$field;
+    }
 
     /**
      * Get id
@@ -105,10 +137,14 @@ class Report
      * @param \DateTime $timestamp
      * @return Report
      */
-    public function setTimestamp($timestamp)
+    public function setTimestamp(\DateTime $timestamp)
     {
         $this->timestamp = $timestamp;
-    
+
+        $this->year = (int)$timestamp->format('Y');
+        $this->month = (int)$timestamp->format('m');
+        $this->day = (int)$timestamp->format('d');
+
         return $this;
     }
 
@@ -120,5 +156,58 @@ class Report
     public function getTimestamp()
     {
         return $this->timestamp;
+    }
+
+    /**
+     * Get year
+     *
+     * @return integer
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
+
+    /**
+     * Get month
+     *
+     * @return integer
+     */
+    public function getMonth()
+    {
+        return $this->month;
+    }
+
+    /**
+     * Get day
+     *
+     * @return integer
+     */
+    public function getDay()
+    {
+        return $this->day;
+    }
+
+    /**
+     * Set ph
+     *
+     * @param float $ph
+     * @return Report
+     */
+    public function setPh($ph)
+    {
+        $this->ph = $ph;
+
+        return $this;
+    }
+
+    /**
+     * Get ph
+     *
+     * @return float
+     */
+    public function getPh()
+    {
+        return $this->ph;
     }
 }

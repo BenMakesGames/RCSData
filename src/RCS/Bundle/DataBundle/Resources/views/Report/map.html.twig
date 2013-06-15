@@ -1,6 +1,6 @@
 {% extends 'RCSDataBundle::base.html.twig' %}
 
-{% block content %}
+{% block additionalScripts %}
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script>
         var googleMap;
@@ -17,9 +17,9 @@
             $.getJSON(
                 '{{ path('report_data') }}',
                 {},
-                function(data)
+                function(response)
                 {
-                    $.each(data.reports, function(i, report) {
+                    $.each(response.data, function(i, report) {
                         new google.maps.Marker({
                             position: new google.maps.LatLng(report.latitude, report.longitude),
                             map: googleMap,
@@ -30,6 +30,9 @@
             );
         });
     </script>
+{% endblock %}
+
+{% block content %}
     <h1>Map</h1>
     <div id="report-map" style="height:300px;">
     </div>
