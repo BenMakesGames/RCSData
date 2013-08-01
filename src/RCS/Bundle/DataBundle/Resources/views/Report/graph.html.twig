@@ -18,11 +18,12 @@
                     $('#report-graph').empty();
 
                     var width = $('#report-graph').width();
+                    var height = 300;
 
                     chart = d3.select('#report-graph').append('svg')
                         .attr('class', 'chart')
                         .attr('width', width)
-                        .attr('height', 300)
+                        .attr('height', height)
                     ;
 
                     var maxY = undefined;
@@ -37,12 +38,12 @@
 
                     var yScale = d3.scale.linear()
                         .domain([minY, maxY])
-                        .range([0, 280]) // 20px padding on top (room for yTick labels)
+                        .range([20, 280]) // 20px padding on top and bottom (room for yTick and xTick labels)
                     ;
 
-                    var xScale = d3.scale.ordinal()
-                        .domain(d3.range(response.data.length))
-                        .rangeBands([50, width], 0.1)
+                    var xScale = d3.scale.linear()
+                        .domain([0, response.data.length - 1])
+                        .range([50, width - 20]) // 50px padding on the left (room for yTick labels); 20px on the right (for xTick labels)
                     ;
 
                     chart.selectAll('line.yTick')
@@ -51,8 +52,8 @@
                         .attr('class', 'yTick')
                         .attr('x1', 0)
                         .attr('x2', width)
-                        .attr('y1', function(d, i) { return 300 - yScale(d); })
-                        .attr('y2', function(d, i) { return 300 - yScale(d); })
+                        .attr('y1', function(d) { return height - yScale(d); })
+                        .attr('y2', function(d) { return height - yScale(d); })
                         .style('stroke', '#ccc')
                     ;
 
@@ -61,7 +62,7 @@
                     .enter().append('text')
                         .attr('class', 'yTick')
                         .attr('x', 0)
-                        .attr('y', function(d, i) { return 300 - yScale(d); })
+                        .attr('y', function(d) { return height - yScale(d); })
                         .attr('dy', -3)
                         .attr('text-anchor', 'right')
                         .attr('fill', '#666')
@@ -69,15 +70,39 @@
                         .text(String)
                     ;
 
+                    chart.selectAll('line.xTick')
+                        .data(xScale.ticks(response.data.length))
+                    .enter().append('line')
+                        .attr('class', 'xTick')
+                        .attr('x1', function(d) { return xScale(d); })
+                        .attr('y1', 0)
+                        .attr('x2', function(d) { return xScale(d); })
+                        .attr('y2', height)
+                        .style('stroke', '#ccc')
+                    ;
+
+                    var line = d3.svg.line()
+                        .x(function(d, i) { return xScale(i); })
+                        .y(function(d) { return height - yScale(d.value); })
+                    ;
+
+                    chart.append('svg:path')
+                        .attr('d', line(response.data))
+                        .attr('fill', 'none')
+                        .attr('stroke-width', 2)
+                        .attr('stroke', 'steelblue')
+                    ;
+/*
                     chart.selectAll('rect')
                         .data(response.data)
                     .enter().append('rect')
                         .attr('fill', '#369')
                         .attr('x', function(d, i) { return xScale(i); } )
-                        .attr('y', function(d, i) { return 300 - yScale(d.value); })
+                        .attr('y', function(d, i) { return height - (yScale(d.value) < 0 ? 0 : yScale(d.value)) - yScale(0); })
                         .attr('width', function(d, i) { return xScale.rangeBand(i); })
-                        .attr('height', function(d, i) { return yScale(d.value); })
+                        .attr('height', function(d, i) { return Math.abs(yScale(d.value)); })
                     ;
+*/
                 });
             });
         });
@@ -90,7 +115,11 @@
         <div>
             <label for="filter_plot">Data</label>
             <select name="plot" id="filter_plot">
+                <option value="turbidityNtu">Average Turbidity (NTU)</option>
+                <option value="temperature">Average Water Temperature (&deg;C)</option>
+                <option value="dissolvedOxygenPpm">Average Disolved Oxygen (ppm)</option>
                 <option value="ph">Average pH</option>
+                <option value="airTemperatureC">Average Air Temperature (&deg;C)</option>
             </select>
         </div>
         <div>

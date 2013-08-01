@@ -205,3 +205,8 @@ form.search-form div
     display: inline-block;
     vertical-align: middle;
 }
+
+#rcs_bundle_databundle_reporttype > div
+{
+    margin-bottom: 10px;
+}

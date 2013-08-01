@@ -3,12 +3,6 @@
 {% block additionalScripts %}
     <script>
         $(function() {
-            var now = new Date();
-
-            $('#rcs_bundle_databundle_reporttype_timestamp_date_month').val(now.getMonth() + 1);
-            $('#rcs_bundle_databundle_reporttype_timestamp_date_day').val(now.getDate());
-            $('#rcs_bundle_databundle_reporttype_timestamp_date_year').val(now.getFullYear());
-
             if($('#rcs_bundle_databundle_reporttype_latitude').val() == '' || $('#rcs_bundle_databundle_reporttype_longitude').val() == '')
             {
                 if(navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition)
@@ -27,12 +21,13 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Report creation</h1>
+    <h1>Report edit</h1>
 
-    <form action="{{ path('report_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+    <form action="{{ path('report_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT" />
+        {{ form_widget(edit_form) }}
         <p>
-            <button type="submit">Create</button>
+            <button type="submit">Edit</button>
         </p>
     </form>
 
@@ -41,6 +36,13 @@
         <a href="{{ path('report') }}">
             Back to the list
         </a>
+    </li>
+    <li>
+        <form action="{{ path('report_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
     </li>
 </ul>
 {% endblock %}
