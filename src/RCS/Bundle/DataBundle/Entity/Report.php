@@ -23,13 +23,13 @@ class Report
 
     /**
      * @var float
-     * @ORM\Column(name="latitude", type="decimal", precision=12, scale=9)
+     * @ORM\Column(name="latitude", type="decimal", precision=12, scale=9, nullable=true)
      */
     private $latitude;
 
     /**
      * @var float
-     * @ORM\Column(name="longitude", type="decimal", precision=12, scale=9)
+     * @ORM\Column(name="longitude", type="decimal", precision=12, scale=9, nullable=true)
      */
     private $longitude;
 
@@ -65,13 +65,13 @@ class Report
 
     /**
      * @var string
-     * @ORM\Column(name="precipitation_description", type="string", nullable=true)
+     * @ORM\Column(name="precipitation_description", type="integer", nullable=true)
      */
     private $precipitationDescription;
 
     /**
      * @var string
-     * @ORM\Column(name="land_description", type="string", nullable=true)
+     * @ORM\Column(name="land_description", type="integer", nullable=true)
      */
     private $landDescription;
 
@@ -106,10 +106,16 @@ class Report
     private $airTemperatureC;
 
     /**
-     * @var float
+     * @var boolean
      * @ORM\Column(name="rcs_test_kit_use", type="boolean")
      */
     private $rcsTestKitUse;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="followed_q_a_protocols", type="boolean")
+     */
+    private $followedQAProtocols;
 
     public function get($field)
     {
@@ -374,4 +380,19 @@ class Report
      * @return boolean
      */
     public function getRcsTestKitUse() { return $this->rcsTestKitUse; }
+
+    /**
+     * @param boolean $followedQAProtocols
+     * @return Report
+     */
+    public function setFollowedQAProtocols($followedQAProtocols)
+    {
+        $this->followedQAProtocols = $followedQAProtocols;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getFollowedQAProtocols() { return $this->followedQAProtocols; }
 }

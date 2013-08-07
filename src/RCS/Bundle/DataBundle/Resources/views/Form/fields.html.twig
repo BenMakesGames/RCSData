@@ -1,0 +1,52 @@
+{% block temperature_widget %}
+    {% spaceless %}
+        {{ block('hidden_widget') }}
+        <input class="temperatureValue" type="decimal" />
+        <select class="temperatureUnit">
+            <option value="C">&deg;C</option>
+            <option value="F">&deg;F</option>
+            <!--<option value="K">&deg;K</option>-->
+        </select>
+    {% endspaceless %}
+{% endblock %}
+
+{# some notes on Turbidity:
+
+    "
+    Turbidity units based on Formazine
+
+    The undiluted suspension has a turbidity value of:
+    1000 EBC
+    4000 TEF
+    4000 FTU (Formazin Turbidity Units)
+    4000 FNU (Formazin Nephelometric Units)
+    4000 FAU
+    40000 Helm units
+    69000 ASBC (American Society of Brewing Chemists)
+    "
+
+and:
+
+    "
+    Typical calibration standards based on Kieselgur:
+
+    JTU (Jackson Turbidity Units)
+    JCU (Jackson Candle Units)
+    ppb (parts per billion)
+    ppm
+    g/l (grams per litre)
+    mg/l
+    %TS (percent total solids)
+
+    The units JTU and JCU are based on the Jackson Candle
+    Turbidimeter (Jackson candle tube) the forerunner of modern
+    forward scattered light turbidimeter and not very common
+    anymore.
+    "
+#}
+
+{% block turbidity_widget %}
+    {% spaceless %}
+        {{ block('number_widget') }}
+    {% endspaceless %}
+{% endblock %}

@@ -1,6 +1,8 @@
 {% extends 'RCSDataBundle::base.html.twig' %}
 
 {% block additionalScripts %}
+    {{ parent() }}
+
     <script>
         $(function() {
             var now = new Date();
@@ -27,7 +29,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Report creation</h1>
+    <h1>New Report</h1>
 
     <form action="{{ path('report_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}

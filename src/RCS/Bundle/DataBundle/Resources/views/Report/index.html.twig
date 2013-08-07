@@ -3,57 +3,22 @@
 {% block content %}
     <h1>Report list</h1>
 
-    <table class="records_list">
+    <table class="striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
+                <th></th>
+                <th>Lat, Lng</th>
                 <th>Timestamp</th>
-                <th>Year</th>
-                <th>Month</th>
-                <th>Day</th>
                 <th>Participants</th>
-                <th>Precipitationdescription</th>
-                <th>Landdescription</th>
-                <th>Turbidityntu</th>
-                <th>Temperaturec</th>
-                <th>Dissolvedoxygenppm</th>
-                <th>Ph</th>
-                <th>Airtemperaturec</th>
-                <th>Rcstestkituse</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('report_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.latitude }}</td>
-                <td>{{ entity.longitude }}</td>
+                <td><a href="{{ path('report_edit', { 'id': entity.id }) }}">edit</a></td>
+                <td>{% if entity.latitude and entity.longitude %}{{ entity.latitude|number_format(2) }}, {{ entity.longitude|number_format(2) }}{% endif %}</td>
                 <td>{% if entity.timestamp %}{{ entity.timestamp|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.year }}</td>
-                <td>{{ entity.month }}</td>
-                <td>{{ entity.day }}</td>
                 <td>{{ entity.participants }}</td>
-                <td>{{ entity.precipitationDescription }}</td>
-                <td>{{ entity.landDescription }}</td>
-                <td>{{ entity.turbidityNtu }}</td>
-                <td>{{ entity.temperatureC }}</td>
-                <td>{{ entity.dissolvedOxygenPpm }}</td>
-                <td>{{ entity.ph }}</td>
-                <td>{{ entity.airTemperatureC }}</td>
-                <td>{{ entity.rcsTestKitUse }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('report_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('report_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>
@@ -62,7 +27,7 @@
         <ul>
         <li>
             <a href="{{ path('report_new') }}">
-                Create a new entry
+                New Report
             </a>
         </li>
     </ul>

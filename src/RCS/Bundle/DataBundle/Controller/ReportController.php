@@ -123,7 +123,7 @@ class ReportController extends BaseController
             if(in_array($request->get('plot'), $allowedPlots))
                 $field = $request->get('plot');
             else
-                return new BadRequestHttpException('Invalid search arguments.');
+                return new JsonResponse(array('error' => 'Invalid search arguments.'));
 
             switch($request->get('resolution'))
             {
@@ -133,7 +133,7 @@ class ReportController extends BaseController
                     $resolution = $request->get('resolution');
                     break;
                 default:
-                    return new BadRequestHttpException('Invalid search arguments.');
+                    return new JsonResponse(array('error' => 'Invalid search arguments.'));
             }
 
             $reports = $this->em->createQuery('
@@ -295,7 +295,7 @@ class ReportController extends BaseController
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('report_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('report'));
         }
 
         return array(

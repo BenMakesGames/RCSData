@@ -81,6 +81,17 @@
                         .style('stroke', '#ccc')
                     ;
 
+                    chart.selectAll('text.xTick')
+                        .data(xScale.ticks(response.data.length))
+                    .enter().append('text')
+                        .attr('class', 'xTick')
+                        .attr('x', function(d) { xScale(d) })
+                        .attr('y', height)
+                        .attr('fill', '#666')
+                        .attr('font-size', 12)
+                        .text(String)
+                    ;
+
                     var line = d3.svg.line()
                         .x(function(d, i) { return xScale(i); })
                         .y(function(d) { return height - yScale(d.value); })
@@ -116,8 +127,8 @@
             <label for="filter_plot">Data</label>
             <select name="plot" id="filter_plot">
                 <option value="turbidityNtu">Average Turbidity (NTU)</option>
-                <option value="temperature">Average Water Temperature (&deg;C)</option>
-                <option value="dissolvedOxygenPpm">Average Disolved Oxygen (ppm)</option>
+                <option value="temperatureC">Average Water Temperature (&deg;C)</option>
+                <option value="dissolvedOxygenPpm">Average Dissolved Oxygen (ppm)</option>
                 <option value="ph">Average pH</option>
                 <option value="airTemperatureC">Average Air Temperature (&deg;C)</option>
             </select>

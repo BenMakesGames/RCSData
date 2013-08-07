@@ -210,3 +210,37 @@ form.search-form div
 {
     margin-bottom: 10px;
 }
+
+.required:after
+{
+    content: '*';
+    font-size: 150%;
+    font-weight: bold;
+    color: orange;
+}
+
+table.striped th,table.striped td
+{
+    padding: 4px 8px;
+}
+
+table.striped thead tr
+{
+    background-color: #369;
+    color: #fff;
+}
+
+table.striped tbody tr:nth-child(2n)
+{
+    background-color: #ddd;
+}
+
+table.striped tbody tr td
+{
+    border-right: 1px solid #bbb;
+}
+
+table.striped tbody tr td:last-child
+{
+    border-right: none;
+}
