@@ -1,8 +1,8 @@
 {% block temperature_widget %}
     {% spaceless %}
         {{ block('hidden_widget') }}
-        <input class="temperatureValue" type="decimal" />
-        <select class="temperatureUnit">
+        <input class="temperatureValue" type="text" />
+        <select class="temperatureUnit span1">
             <option value="C">&deg;C</option>
             <option value="F">&deg;F</option>
             <!--<option value="K">&deg;K</option>-->
@@ -13,10 +13,10 @@
 {# some notes on Turbidity:
 
     "
-    Turbidity units based on Formazine
+    Turbidity units based on Formazin
 
     The undiluted suspension has a turbidity value of:
-    1000 EBC
+    1000 EBC (European Brewing Convention)
     4000 TEF
     4000 FTU (Formazin Turbidity Units)
     4000 FNU (Formazin Nephelometric Units)
@@ -45,8 +45,22 @@ and:
     "
 #}
 
-{% block turbidity_widget %}
+{% block formazin_turbidity_widget %}
     {% spaceless %}
-        {{ block('number_widget') }}
+        {{ block('hidden_widget') }}
+        <input class="formazinValue" type="text" />
+        <select class="formazinUnit">
+            <option value="FTU">FTU</option>
+        </select>
+    {% endspaceless %}
+{% endblock %}
+
+{% block kieselgur_turbidity_widget %}
+    {% spaceless %}
+        {{ block('hidden_widget') }}
+        <input class="kieselgurValue" type="text" />
+        <select class="kieselgurUnit">
+            <option value="JTU">JTU</option>
+        </select>
     {% endspaceless %}
 {% endblock %}

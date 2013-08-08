@@ -54,7 +54,7 @@ class ReportController extends BaseController
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('report_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('report'));
         }
 
         return array(
@@ -140,59 +140,70 @@ class ReportController extends BaseController
                 SELECT r
                 FROM RCSDataBundle:Report r
                 WHERE r.' . $field . ' IS NOT NULL
+                ORDER BY r.timestamp ASC
             ')->getResult();
 
-            $rawData = array();
+            $rawDataByDate = array();
 
             foreach($reports as $report)
             {
-                $key = '';
+                $dateString = '';
 
                 switch($resolution)
                 {
                     case 'year':
-                        $key .= $report->getYear();
+                        $dateString .= $report->getYear() . '-01-01';
                         break;
                     case 'month':
-                        $key .= $report->getYear() . '-' . str_pad($report->getMonth(), 2, '0', STR_PAD_LEFT);
+                        $dateString .= $report->getYear() . '-' . str_pad($report->getMonth(), 2, '0', STR_PAD_LEFT) . '-01';
                         break;
                     case 'day':
-                        $key .= $report->getYear() . '-' . str_pad($report->getMonth(), 2, '0', STR_PAD_LEFT) . '-' . str_pad($report->getDay(), 2, '0', STR_PAD_LEFT);
+                        $dateString .= $report->getYear() . '-' . str_pad($report->getMonth(), 2, '0', STR_PAD_LEFT) . '-' . str_pad($report->getDay(), 2, '0', STR_PAD_LEFT);
                         break;
                 }
 
-                $rawData[$key][] = $report->get($field);
+                $rawDataByDate[$dateString][] = $report->get($field);
             }
 
             switch($field)
             {
                 // average values
                 case 'turbidityNtu':
+                case 'turbidityJtu':
                 case 'temperatureC':
                 case 'dissolvedOxygenPpm':
                 case 'ph':
                 case 'airTemperatureC':
                 case 'participants':
-                    foreach($rawData as $key=>$values)
+                    foreach($rawDataByDate as $dateString=>$values)
                     {
+                        $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+
                         $data[] = array(
-                            'date' => $key,
-                            'value' => array_sum($values) / count($values)
+                            'x' => $date->format('U'),
+                            'y' => array_sum($values) / count($values)
                         );
                     }
                     break;
 
                 // total values
                 case '':
-                    foreach($rawData as $key=>$values)
+                    foreach($rawDataByDate as $dateString=>$values)
                     {
+                        $date = \DateTime::createFromFormat('Y-m-d', $dateString);
+
                         $data[] = array(
-                            'date' => $key,
-                            'value' => array_sum($values)
+                            'x' => $date->format('U'),
+                            'y' => array_sum($values)
                         );
                     }
                     break;
             }
+
+            return new JsonResponse(array(
+                'resolution' => $resolution,
+                'data' => $data
+            ));
         }
         else
         {
@@ -211,11 +222,11 @@ class ReportController extends BaseController
                     'airTemperatureC' => $report->getAirTemperatureC(),
                 );
             }
-        }
 
-        return new JsonResponse(array(
-            'data' => $data
-        ));
+            return new JsonResponse(array(
+                'data' => $data
+            ));
+        }
     }
 
     /**

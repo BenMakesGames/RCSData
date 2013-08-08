@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use RCS\Bundle\DataBundle\Form\Type\TemperatureType;
 use RCS\Bundle\DataBundle\Form\Type\PrecipitationType;
 use RCS\Bundle\DataBundle\Form\Type\LandType;
+use RCS\Bundle\DataBundle\Form\Type\FormazinTurbidityType;
+use RCS\Bundle\DataBundle\Form\Type\KieselgurTurbidityType;
 
 class ReportType extends AbstractType
 {
@@ -20,7 +22,7 @@ class ReportType extends AbstractType
             ->add('participants', null, array('label' => 'Number of Participants at Monitoring Site', 'required' => true))
             ->add('precipitationDescription', new PrecipitationType(), array('label' => 'Describe recent precipitation at the site:', 'required' => false))
             ->add('landDescription', new LandType(), array('label' => 'Describe the land surrounding the site:', 'required' => false))
-            ->add('turbidityNtu', null, array('label' => 'Turbidity (in NTU)', 'required' => false))
+            ->add('turbidityNtu', null, array('label' => 'Turbidity (in NTU, FTU, or JTU)', 'required' => false))
             ->add('temperatureC', new TemperatureType(), array('label' => 'Water Temperature', 'required' => false))
             ->add('dissolvedOxygenPpm', null, array('label' => 'Dissolved Oxygen (in ppm)', 'required' => false))
             ->add('ph', null, array('label' => 'pH', 'required' => false))

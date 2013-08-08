@@ -1,30 +1,3 @@
-/*
-html5doctor.com Reset Stylesheet v1.6.1
-Last Updated: 2010-09-17
-Author: Richard Clark - http://richclarkdesign.com
-Modified for the Rivanna Conservation Society Reporting Tool - http://rivannariver.org
-*/
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code,
-del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var,
-b, i,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-    margin:0;
-    padding:0;
-    border:0;
-    outline:0;
-    font-size:16px;
-    font-family:Arial,Helvetica,sans-serif;
-    vertical-align:baseline;
-    background:transparent;
-}
 body {
     background-color: #ddd;
 }
@@ -47,13 +20,11 @@ q:before, q:after {
     content:none;
 }
 a {
-    margin:0;
-    padding:0;
     color: #369;
-    vertical-align:baseline;
-    background:transparent;
-    text-decoration: none;
     font-weight: bold;
+}
+a.btn {
+    font-weight: normal;
 }
 /* change colours to suit your needs */
 ins {
@@ -75,10 +46,7 @@ abbr[title], dfn[title] {
     border-bottom:1px dotted;
     cursor:help;
 }
-table {
-    border-collapse:collapse;
-    border-spacing:0;
-}
+
 /* change border colour to suit your needs */
 hr {
     display:block;
@@ -87,26 +55,6 @@ hr {
     border-top:1px solid #cccccc;
     margin:1em 0;
     padding:0;
-}
-input, select {
-    vertical-align:middle;
-    font-size: 16px;
-}
-
-.button
-{
-    cursor: pointer;
-    margin: 0;
-    padding: 0 10px;
-    display: inline-block;
-    line-height: 16px;
-    color: #fff;
-    background-color: #69c;
-    border-left: 2px solid #9cf;
-    border-top: 2px solid #9cf;
-    border-bottom: 2px solid #369;
-    border-right: 2px solid #369;
-    vertical-align: middle;
 }
 
 #main-nav

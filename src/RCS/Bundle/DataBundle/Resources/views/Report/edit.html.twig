@@ -24,27 +24,22 @@
 
 {% block content %}
     <h1>View/Edit Report</h1>
-
+    <p>Fields marked with <span class="required"></span> are required.</p>
     <form action="{{ path('report_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
         <input type="hidden" name="_method" value="PUT" />
         {{ form_widget(edit_form) }}
         <p>
-            <button type="submit">Save Changes</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{{ path('report') }}" class="btn">
+                Cancel
+            </a>
         </p>
     </form>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('report') }}">
-            Cancel
-        </a>
-    </li>
-    <li>
         <form action="{{ path('report_delete', { 'id': entity.id }) }}" method="post">
             <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+            <button type="submit" class="btn btn-danger"><span class="icon-white icon-trash"></span> Delete</button>
         </form>
     </li>
-</ul>
 {% endblock %}

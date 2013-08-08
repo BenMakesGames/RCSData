@@ -1,7 +1,9 @@
 {% extends 'RCSDataBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Report list</h1>
+    <h1>Report Data</h1>
+
+    <p><a href="{{ path('report_new') }}" class="btn"><span class="icon-plus"></span> New Report</a></p>
 
     <table class="striped">
         <thead>
@@ -15,7 +17,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('report_edit', { 'id': entity.id }) }}">edit</a></td>
+                <td><a href="{{ path('report_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a></td>
                 <td>{% if entity.latitude and entity.longitude %}{{ entity.latitude|number_format(2) }}, {{ entity.longitude|number_format(2) }}{% endif %}</td>
                 <td>{% if entity.timestamp %}{{ entity.timestamp|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.participants }}</td>
@@ -23,12 +25,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('report_new') }}">
-                New Report
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% endblock %}
