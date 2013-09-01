@@ -154,7 +154,7 @@ form.search-form div
     vertical-align: middle;
 }
 
-#rcs_bundle_databundle_reporttype > div
+#rcs_bundle_databundle_reporttype > div, #login_form > div
 {
     margin-bottom: 10px;
 }

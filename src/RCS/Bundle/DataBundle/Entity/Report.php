@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Report
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="RCS\Bundle\DataBundle\Entity\ReportRepository")
+ * @ORM\Entity(repositoryClass="RCS\Bundle\DataBundle\Repository\ReportRepository")
  */
 class Report
 {
@@ -22,16 +22,16 @@ class Report
     private $id;
 
     /**
-     * @var float
-     * @ORM\Column(name="latitude", type="decimal", precision=12, scale=9, nullable=true)
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="reporter_id", referencedColumnName="id")
      */
-    private $latitude;
+    private $reporter;
 
     /**
-     * @var float
-     * @ORM\Column(name="longitude", type="decimal", precision=12, scale=9, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Site")
+     * @ORM\JoinColumn(name="site_id", referencedColumnName="id")
      */
-    private $longitude;
+    private $site;
 
     /**
      * @var \DateTime
@@ -64,13 +64,13 @@ class Report
     private $participants;
 
     /**
-     * @var string
+     * @var integer
      * @ORM\Column(name="precipitation_description", type="integer", nullable=true)
      */
     private $precipitationDescription;
 
     /**
-     * @var string
+     * @var integer
      * @ORM\Column(name="land_description", type="integer", nullable=true)
      */
     private $landDescription;
@@ -133,49 +133,39 @@ class Report
     }
 
     /**
-     * Set latitude
-     *
-     * @param float $latitude
+     * @param User $user
      * @return Report
      */
-    public function setLatitude($latitude)
+    public function setReporter($user)
     {
-        $this->latitude = $latitude;
-    
+        $this->reporter = $user;
         return $this;
     }
 
     /**
-     * Get latitude
-     *
-     * @return float 
+     * @return User
      */
-    public function getLatitude()
+    public function getReporter()
     {
-        return $this->latitude;
+        return $this->reporter;
     }
 
     /**
-     * Set longitude
-     *
-     * @param float $longitude
+     * @param Site $site
      * @return Report
      */
-    public function setLongitude($longitude)
+    public function setSite($site)
     {
-        $this->longitude = $longitude;
-    
+        $this->site = $site;
         return $this;
     }
 
     /**
-     * Get longitude
-     *
-     * @return float 
+     * @return Site
      */
-    public function getLongitude()
+    public function getSite()
     {
-        return $this->longitude;
+        return $this->site;
     }
 
     /**
@@ -253,7 +243,7 @@ class Report
     public function getParticipants() { return $this->participants; }
 
     /**
-     * @param string $description
+     * @param integer $description
      * @return Report
      */
     public function setPrecipitationDescription($description)
@@ -263,12 +253,12 @@ class Report
     }
 
     /**
-     * @return string
+     * @return integer
      */
     public function getPrecipitationDescription() { return $this->precipitationDescription; }
 
     /**
-     * @param string $description
+     * @param integer $description
      * @return Report
      */
     public function setLandDescription($description)
@@ -278,7 +268,7 @@ class Report
     }
 
     /**
-     * @return string
+     * @return integer
      */
     public function getLandDescription() { return $this->landDescription; }
 

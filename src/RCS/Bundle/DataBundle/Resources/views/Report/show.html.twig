@@ -2,93 +2,40 @@
 
 {% block content %}
     <h1>Report</h1>
+    <p><a href="{{ path('report_edit', { id: entity.id }) }}" class="btn"><span class="icon-pencil"></span> Edit</a></p>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Latitude</th>
-                <td>{{ entity.latitude }}</td>
-            </tr>
-            <tr>
-                <th>Longitude</th>
-                <td>{{ entity.longitude }}</td>
-            </tr>
-            <tr>
-                <th>Timestamp</th>
-                <td>{{ entity.timestamp|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Year</th>
-                <td>{{ entity.year }}</td>
-            </tr>
-            <tr>
-                <th>Month</th>
-                <td>{{ entity.month }}</td>
-            </tr>
-            <tr>
-                <th>Day</th>
-                <td>{{ entity.day }}</td>
-            </tr>
-            <tr>
-                <th>Participants</th>
-                <td>{{ entity.participants }}</td>
-            </tr>
-            <tr>
-                <th>Precipitationdescription</th>
-                <td>{{ entity.precipitationDescription }}</td>
-            </tr>
-            <tr>
-                <th>Landdescription</th>
-                <td>{{ entity.landDescription }}</td>
-            </tr>
-            <tr>
-                <th>Turbidityntu</th>
-                <td>{{ entity.turbidityNtu }}</td>
-            </tr>
-            <tr>
-                <th>Temperaturec</th>
-                <td>{{ entity.temperatureC }}</td>
-            </tr>
-            <tr>
-                <th>Dissolvedoxygenppm</th>
-                <td>{{ entity.dissolvedOxygenPpm }}</td>
-            </tr>
-            <tr>
-                <th>Ph</th>
-                <td>{{ entity.ph }}</td>
-            </tr>
-            <tr>
-                <th>Airtemperaturec</th>
-                <td>{{ entity.airTemperatureC }}</td>
-            </tr>
-            <tr>
-                <th>Rcstestkituse</th>
-                <td>{{ entity.rcsTestKitUse }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <dl>
+        <dt>Lat, Lng</dt>
+        <dd>{% if entity.latitude and entity.longitude %}{{ entity.latitude }}, {{ entity.longitude }}{% endif %}</dd>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('report') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('report_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('report_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+        <dt>Timestamp</dt>
+        <dd>{{ entity.timestamp|date('Y-m-d H:i:s') }}</dd>
+
+        <dt>Participants</dt>
+        <dd>{{ entity.participants }}</dd>
+
+        <dt>Recent Precipitation</dt>
+        <dd>{{ entity.precipitationDescription }}</dd>
+
+        <dt>Surrounding Land</dt>
+        <dd>{{ entity.landDescription }}</dd>
+
+        <dt>Turbidity</dt>
+        <dd>{{ entity.turbidityNtu }} NTU</dd>
+
+        <dt>Water Temperature</dt>
+        <dd>{{ entity.temperatureC }} &deg;C</dd>
+
+        <dt>Dissolved Oxygen</dt>
+        <dd>{{ entity.dissolvedOxygenPpm }} ppm</dd>
+
+        <dt>pH</dt>
+        <dd>{{ entity.ph }}</dd>
+
+        <dt>Air Temperature</dt>
+        <dd>{{ entity.airTemperatureC }} &deg;C</dd>
+
+        <dt>Used RCS Test Kit?</dt>
+        <dd>{{ entity.rcsTestKitUse }}</dd>
+    </dl>
 {% endblock %}

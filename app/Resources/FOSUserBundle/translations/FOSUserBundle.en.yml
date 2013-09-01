@@ -1,0 +1,6 @@
+# overrides
+form:
+    username: "E-mail Address:"
+    email: "<error>"
+    password_confirmation: "Password (again):"
+    new_password_confirmation: "New password (again):"

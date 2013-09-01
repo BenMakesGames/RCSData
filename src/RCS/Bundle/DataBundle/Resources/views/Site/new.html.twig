@@ -1,0 +1,17 @@
+{% extends 'RCSDataBundle::base.html.twig' %}
+
+{% block content %}
+    <h1>Site creation</h1>
+
+    <p>Fields marked with <span class="required"></span> are required.</p>
+
+    <form action="{{ path('site_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <p>
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a href="{{ path('report') }}" class="btn">
+                Cancel
+            </a>
+        </p>
+    </form>
+{% endblock %}

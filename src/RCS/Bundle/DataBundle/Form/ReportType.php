@@ -16,8 +16,7 @@ class ReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('latitude', null, array('required' => false))
-            ->add('longitude', null, array('required' => false))
+            ->add('site', null, array('required' => false))
             ->add('timestamp', null, array('required' => true))
             ->add('participants', null, array('label' => 'Number of Participants at Monitoring Site', 'required' => true))
             ->add('precipitationDescription', new PrecipitationType(), array('label' => 'Describe recent precipitation at the site:', 'required' => false))

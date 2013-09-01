@@ -3,8 +3,8 @@
 namespace RCS\Bundle\DataBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,9 +27,19 @@ class ReportController extends BaseController
      */
     public function indexAction()
     {
+        if(!$this->hasPermission('ROLE_USER'))
+            throw new AccessDeniedException();
+
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RCSDataBundle:Report')->findAll();
+        if($this->hasPermission('ROLE_ADMIN'))
+            $entities = $em->getRepository('RCSDataBundle:Report')->findAll();
+        else
+        {
+            $entities = $em->getRepository('RCSDataBundle:Report')->findBy(array(
+                'reporter' => $this->getUser()
+            ));
+        }
 
         return array(
             'entities' => $entities,
@@ -45,12 +55,17 @@ class ReportController extends BaseController
      */
     public function createAction(Request $request)
     {
+        if(!$this->hasPermission('ROLE_USER'))
+            throw new AccessDeniedException();
+
         $entity  = new Report();
         $form = $this->createForm(new ReportType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $entity->setReporter($this->getUser());
+
             $em->persist($entity);
             $em->flush();
 
@@ -72,6 +87,9 @@ class ReportController extends BaseController
      */
     public function newAction()
     {
+        if(!$this->hasPermission('ROLE_USER'))
+            throw new AccessDeniedException();
+
         $entity = new Report();
         $form   = $this->createForm(new ReportType(), $entity);
 
@@ -144,6 +162,7 @@ class ReportController extends BaseController
             ')->getResult();
 
             $rawDataByDate = array();
+            $reportsByDate = array();
 
             foreach($reports as $report)
             {
@@ -163,6 +182,7 @@ class ReportController extends BaseController
                 }
 
                 $rawDataByDate[$dateString][] = $report->get($field);
+                $reportsByDate[$dateString][] = $report->getId();
             }
 
             switch($field)
@@ -181,7 +201,8 @@ class ReportController extends BaseController
 
                         $data[] = array(
                             'x' => $date->format('U'),
-                            'y' => array_sum($values) / count($values)
+                            'y' => array_sum($values) / count($values),
+                            'reports' => $reportsByDate[$dateString],
                         );
                     }
                     break;
@@ -194,7 +215,8 @@ class ReportController extends BaseController
 
                         $data[] = array(
                             'x' => $date->format('U'),
-                            'y' => array_sum($values)
+                            'y' => array_sum($values),
+                            'reports' => $reportsByDate[$dateString],
                         );
                     }
                     break;
@@ -263,9 +285,15 @@ class ReportController extends BaseController
      */
     public function editAction($id)
     {
+        if(!$this->hasPermission('ROLE_USER'))
+            throw new AccessDeniedException();
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('RCSDataBundle:Report')->find($id);
+
+        if(!($this->hasPermission('ROLE_ADMIN') || $entity->getReporter()->getId() == $this->getUser()->getId()))
+            throw new AccessDeniedException();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Report entity.');
@@ -290,6 +318,9 @@ class ReportController extends BaseController
      */
     public function updateAction(Request $request, $id)
     {
+        if(!$this->hasPermission('ROLE_USER'))
+            throw new AccessDeniedException();
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('RCSDataBundle:Report')->find($id);
@@ -297,6 +328,9 @@ class ReportController extends BaseController
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Report entity.');
         }
+
+        if(!($this->hasPermission('ROLE_ADMIN') || $entity->getReporter()->getId() == $this->getUser()->getId()))
+            throw new AccessDeniedException();
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new ReportType(), $entity);
@@ -324,6 +358,9 @@ class ReportController extends BaseController
      */
     public function deleteAction(Request $request, $id)
     {
+        if(!$this->hasPermission('ROLE_USER'))
+            throw new AccessDeniedException();
+
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -334,6 +371,9 @@ class ReportController extends BaseController
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Report entity.');
             }
+
+            if(!($this->hasPermission('ROLE_ADMIN') || $entity->getReporter()->getId() == $this->getUser()->getId()))
+                throw new AccessDeniedException();
 
             $em->remove($entity);
             $em->flush();
@@ -346,8 +386,6 @@ class ReportController extends BaseController
      * Creates a form to delete a Report entity by id.
      *
      * @param mixed $id The entity id
-     *
-     * @return Symfony\Component\Form\Form The form
      */
     private function createDeleteForm($id)
     {

@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th></th>
-                <th>Lat, Lng</th>
+                <th>Site</th>
                 <th>Timestamp</th>
                 <th>Participants</th>
             </tr>
@@ -17,8 +17,11 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('report_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a></td>
-                <td>{% if entity.latitude and entity.longitude %}{{ entity.latitude|number_format(2) }}, {{ entity.longitude|number_format(2) }}{% endif %}</td>
+                <td>
+                    <a href="{{ path('report_show', { 'id': entity.id }) }}"><span class="icon-search"></span></a>
+                    <a href="{{ path('report_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a>
+                </td>
+                <td>{% if entity.site %}{{ entity.site.name }}{% endif %}</td>
                 <td>{% if entity.timestamp %}{{ entity.timestamp|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.participants }}</td>
             </tr>

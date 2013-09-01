@@ -12,8 +12,8 @@ class DefaultController extends BaseController
      * @Route("/")
      * @Template()
      */
-    public function indexAction($name)
+    public function indexAction()
     {
-        return array('name' => $name);
+        return $this->redirect($this->generateUrl('report_map'));
     }
 }
