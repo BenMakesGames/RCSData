@@ -1,5 +1,5 @@
 body {
-    background-color: #ddd;
+    background-color: #094897;
 }
 
 h1,h2,h3,h4,h5,h6,p,table,ul,ol,blockquote,q
@@ -66,23 +66,37 @@ hr {
 {
     margin: 0;
     list-style: none;
-    height: 29px;
+    height: 53px;
+    border-bottom: 10px solid #ddd;
 }
 
 #main-nav ul li
 {
+    display: block;
     float: left;
+}
+
+#main-nav ul li.home
+{
+    background-image: url(/img/rcslogo.png);
+    background-repeat: no-repeat;
+    padding-left: 80px;
 }
 
 #main-nav ul li a
 {
+    display: block;
+    height: 23px;
+    margin-top: 20px;
     padding: 5px 10px;
+    color: #ddd;
 }
 
 #main-nav ul li a:hover
 {
-    background-color: #369;
-    color: #fff;
+    background-color: #ddd;
+    color: #094897;
+    text-decoration: none;
 }
 
 #content
