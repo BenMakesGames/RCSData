@@ -1,9 +1,11 @@
 {% extends 'RCSDataBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Site list</h1>
+    <h1>Sites</h1>
 
-    <p><a href="{{ path('site_new') }}" class="btn"><span class="icon-plus"></span> New Site</a></p>
+    {% if user is defined and is_granted('USER_ADMIN') %}
+        <p><a href="{{ path('site_new') }}" class="btn"><span class="icon-plus"></span> New Site</a></p>
+    {% endif %}
 
     <table class="striped">
         <thead>
@@ -12,7 +14,6 @@
                 <th>Name</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                <th>Description</th>
             </tr>
         </thead>
         <tbody>
@@ -20,12 +21,13 @@
             <tr>
                 <td>
                     <a href="{{ path('site_show', { 'id': entity.id }) }}"><span class="icon-search"></span></a>
-                    <a href="{{ path('site_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a>
+                    {% if user is defined and is_granted('USER_ADMIN') %}
+                        <a href="{{ path('site_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a>
+                    {% endif %}
                 </td>
                 <td>{{ entity.name }}</td>
                 <td>{{ entity.latitude }}</td>
                 <td>{{ entity.longitude }}</td>
-                <td>{{ entity.description }}</td>
             </tr>
         {% endfor %}
         </tbody>

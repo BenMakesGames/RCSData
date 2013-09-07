@@ -1,12 +1,14 @@
 {% extends 'RCSDataBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Report</h1>
-    <p><a href="{{ path('report_edit', { id: entity.id }) }}" class="btn"><span class="icon-pencil"></span> Edit</a></p>
+    <h1><a href="{{ path('report') }}">Report Data</a>: {% if entity.site %}{{ entity.site.name }}, {% endif %}{{ entity.timestamp|date('Y-m-d') }}</h1>
+    {% if user is defined and (is_granted('ROLE_ADMIN') or entity.reporter.id == user.id) %}
+        <p><a href="{{ path('report_edit', { id: entity.id }) }}" class="btn"><span class="icon-pencil"></span> Edit</a></p>
+    {% endif %}
 
     <dl>
-        <dt>Lat, Lng</dt>
-        <dd>{% if entity.latitude and entity.longitude %}{{ entity.latitude }}, {{ entity.longitude }}{% endif %}</dd>
+        <dt>Site</dt>
+        <dd>{% if entity.site %}<a href="{{ path('site_show', { id: entity.site.id }) }}">{{ entity.site.name }}</a>{% else %}&mdash;{% endif %}</dd>
 
         <dt>Timestamp</dt>
         <dd>{{ entity.timestamp|date('Y-m-d H:i:s') }}</dd>
