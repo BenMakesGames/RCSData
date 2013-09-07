@@ -116,7 +116,11 @@ class ReportController extends BaseController
      */
     public function graphAction()
     {
-        return array();
+        $sites = $this->em->getRepository('RCSDataBundle:Site')->findBy(array(), array('name' => 'ASC'));
+
+        return array(
+            'sites' => $sites
+        );
     }
 
     /**
@@ -125,7 +129,7 @@ class ReportController extends BaseController
      */
     public function dataAction()
     {
-        $request = $this->get('request');
+        $request = $this->getRequest()->query;
 
         $data = array();
 
@@ -136,7 +140,7 @@ class ReportController extends BaseController
             'participants',
         );
 
-        if($request->query->has('plot') && $request->query->has('resolution'))
+        if($request->has('plot') && $request->has('resolution'))
         {
             if(in_array($request->get('plot'), $allowedPlots))
                 $field = $request->get('plot');
@@ -154,12 +158,22 @@ class ReportController extends BaseController
                     return new JsonResponse(array('error' => 'Invalid search arguments.'));
             }
 
-            $reports = $this->em->createQuery('
-                SELECT r
-                FROM RCSDataBundle:Report r
-                WHERE r.' . $field . ' IS NOT NULL
-                ORDER BY r.timestamp ASC
-            ')->getResult();
+            $qb = $this->em->createQueryBuilder();
+            $qb
+                ->select('r')
+                ->from('RCS\Bundle\DataBundle\Entity\Report', 'r')
+                ->where($qb->expr()->isNotNull('r.' . $field))
+            ;
+
+            if($request->has('site'))
+            {
+                $site = $request->getInt('site');
+                $qb->andWhere($qb->expr()->eq('r.site', $site));
+            }
+
+            $qb->orderBy('r.timestamp', 'ASC');
+
+            $reports = $qb->getQuery()->execute();
 
             $rawDataByDate = array();
             $reportsByDate = array();
@@ -234,8 +248,7 @@ class ReportController extends BaseController
             foreach($reports as $report)
             {
                 $data[] = array(
-                    'latitude' => $report->getLatitude(),
-                    'longitude' => $report->getLongitude(),
+                    'siteId' => ($report->getSite() ? $report->getSite()->getId() : null),
                     'timestamp' => $report->getTimestamp(),
                     'turbidtyNtu' => $report->getTurbidityNtu(),
                     'temperatureC' => $report->getTemperatureC(),

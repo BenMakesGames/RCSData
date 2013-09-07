@@ -49,6 +49,7 @@
                 e.preventDefault();
 
                 var search = {
+                    site: $('#filter_site').val(),
                     plot: $('#filter_plot').val(),
                     resolution: $('#filter_resolution').val()
                 };
@@ -180,6 +181,16 @@
                         .attr('height', function(d, i) { return Math.abs(yScale(d.value)); })
                     ;
 */
+                    if(response.data.length == 0)
+                    {
+                        chart.append('text')
+                            .attr('x', 0)
+                            .attr('y', 20)
+                            .attr('fill', '#cc0000')
+                            .attr('font-weight', 'bold')
+                            .text('No data found. Try another site or data set.')
+                        ;
+                    }
                 });
             });
         });
@@ -189,6 +200,14 @@
 {% block content %}
     <h1>Graph</h1>
     <form id="filters" class="search-form">
+        <div>
+            <label for="filter_site">Site</label>
+            <select name="site" id="filter_site">
+                {% for site in sites %}
+                    <option value="{{ site.id }}">{{ site.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div>
             <label for="filter_plot">Data</label>
             <select name="plot" id="filter_plot">
