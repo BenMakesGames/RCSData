@@ -20,3 +20,41 @@ $(function() {
         console.log(temp + ' C');
     });
 });
+
+function generateReportPopupHtml(reportIds, reportUrl)
+{
+    var reportsText = (reportIds.length == 1 ? 'report' : 'reports');
+
+    var html =
+        '<p>This point represents data from ' + reportIds.length + ' ' + reportsText + '.</p>' +
+        '<form action="' + reportUrl + '" method="GET">'
+    ;
+
+    $.each(reportIds, function(i, reportId) {
+        html += '<input type="hidden" name="report_id[]" value="' + reportId + '" />';
+    });
+
+    html +=
+        '<p><input type="submit" class="btn" value="View ' + reportsText.capitalize() + '" /></p>' +
+        '</form>'
+    ;
+
+    return html;
+}
+
+function doReportsPopup(e, reportIds, reportUrl)
+{
+    var offset = $(e).offset();
+
+    var $popup = $('#report-details')
+        .css({
+            display: 'block',
+            left: offset.left + 'px',
+            top: offset.top + 'px'
+        })
+    ;
+
+    $popup.find('.popover-content')
+        .html(generateReportPopupHtml(reportIds, reportUrl))
+    ;
+}

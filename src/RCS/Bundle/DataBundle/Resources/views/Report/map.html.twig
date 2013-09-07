@@ -6,6 +6,8 @@
         var googleMap;
 
         $(function() {
+            var infoWindow = new google.maps.InfoWindow({ content: '' });
+
             var mapOptions = {
                 zoom: 12,
                 center: new google.maps.LatLng({{ center.latitude }}, {{ center.longitude }}),
@@ -14,18 +16,60 @@
 
             googleMap = new google.maps.Map(document.getElementById('report-map'), mapOptions);
 
+            google.maps.event.addDomListener(window, 'resize', function() {
+                googleMap.setCenter(mapOptions.center);
+            });
+/*
+            google.maps.event.addDomListener(googleMap, 'moveend', function() {
+                mapOptions.center = googleMap.getCenter();
+            });
+*/
             $.getJSON(
                 '{{ path('report_data') }}',
                 {},
                 function(response)
                 {
+                    if(response.data.length == 0)
+                        return;
+
+                    var reportsBySite = {}, avgLat = 0, avgLng = 0, distinctSites = 0;
+
                     $.each(response.data, function(i, report) {
-                        new google.maps.Marker({
-                            position: new google.maps.LatLng(report.latitude, report.longitude),
+                        if(!reportsBySite[report.siteId])
+                        {
+                            reportsBySite[report.siteId] = [];
+                            distinctSites++;
+                        }
+
+                        reportsBySite[report.siteId].push(report.id);
+                    });
+
+                    console.log(reportsBySite);
+
+                    $.each(reportsBySite, function(siteId, reportIds) {
+                        var site = response.sitesById[siteId];
+
+                        avgLat += parseFloat(site.latitude);
+                        avgLng += parseFloat(site.longitude);
+
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(site.latitude, site.longitude),
                             map: googleMap,
-                            title: report.title
+                            title: site.name
+                        });
+
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infoWindow.setContent(generateReportPopupHtml(reportIds, '{{ path('report') }}'));
+                            infoWindow.open(googleMap, this);
                         });
                     });
+
+                    avgLat /= distinctSites;
+                    avgLng /= distinctSites;
+
+                    mapOptions.center = new google.maps.LatLng(avgLat, avgLng);
+
+                    googleMap.setCenter(mapOptions.center);
                 }
             );
         });

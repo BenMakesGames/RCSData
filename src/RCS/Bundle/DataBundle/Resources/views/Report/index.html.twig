@@ -3,7 +3,9 @@
 {% block content %}
     <h1>Report Data</h1>
 
-    <p><a href="{{ path('report_new') }}" class="btn"><span class="icon-plus"></span> New Report</a></p>
+    {% if is_granted('ROLE_USER') %}
+        <p><a href="{{ path('report_new') }}" class="btn"><span class="icon-plus"></span> New Report</a></p>
+    {% endif %}
 
     <table class="striped">
         <thead>
@@ -19,7 +21,9 @@
             <tr>
                 <td>
                     <a href="{{ path('report_show', { 'id': entity.id }) }}"><span class="icon-search"></span></a>
-                    <a href="{{ path('report_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a>
+                    {% if user is defined and (is_granted('ROLE_ADMIN') or entity.reporter.id == user.id) %}
+                        <a href="{{ path('report_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a>
+                    {% endif %}
                 </td>
                 <td>{% if entity.site %}{{ entity.site.name }}{% endif %}</td>
                 <td>{% if entity.timestamp %}{{ entity.timestamp|date('Y-m-d H:i:s') }}{% endif %}</td>

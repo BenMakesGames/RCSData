@@ -15,31 +15,6 @@
                 return dt.getFullYear() + '-' + (dt.getMonth() < 9 ? '0' : '') + (dt.getMonth() + 1) + '-' + (dt.getDate() < 9 ? '0' : '') + dt.getDate();
         }
 
-        function doReportsPopup(e, reportIds)
-        {
-            var offset = $(e).offset();
-
-            var $popup = $('#report-details')
-                .css({
-                    display: 'block',
-                    left: offset.left + 'px',
-                    top: offset.top + 'px'
-                })
-            ;
-
-            $popup.find('.popover-content')
-                .empty()
-                .html(
-                    '<p>This point represents data from ' + reportIds.length + ' ' + (reportIds.length == 1 ? 'report' : 'reports') + '.</p>' +
-                    '<form action="{{ path('report') }}" method="POST">' +
-                    // TODO: hidden inputs named "report_id[]" containing each element from reportIds
-                    // TODO: also: make the controller able to do this kind of filtering!
-                    '<p><input type="submit" class="btn" value="View" /></p>' +
-                    '</form>'
-                )
-            ;
-        }
-
         $(function() {
             $(document).on('click', function() {
                 $('.popover').hide();
@@ -167,7 +142,7 @@
                         .attr('cursor', 'pointer')
                         .on('click', function(d) {
                             d3.event.stopPropagation();
-                            doReportsPopup(this, d.reports);
+                            doReportsPopup(this, d.reports, '{{ path('report') }}');
                         })
                     ;
 /*

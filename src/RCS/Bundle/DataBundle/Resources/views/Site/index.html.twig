@@ -9,9 +9,9 @@
         <thead>
             <tr>
                 <th></th>
+                <th>Name</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                <th>Name</th>
                 <th>Description</th>
             </tr>
         </thead>
@@ -22,9 +22,9 @@
                     <a href="{{ path('site_show', { 'id': entity.id }) }}"><span class="icon-search"></span></a>
                     <a href="{{ path('site_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a>
                 </td>
+                <td>{{ entity.name }}</td>
                 <td>{{ entity.latitude }}</td>
                 <td>{{ entity.longitude }}</td>
-                <td>{{ entity.name }}</td>
                 <td>{{ entity.description }}</td>
             </tr>
         {% endfor %}

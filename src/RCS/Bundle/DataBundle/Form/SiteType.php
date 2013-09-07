@@ -11,9 +11,9 @@ class SiteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name')
             ->add('latitude')
             ->add('longitude')
-            ->add('name')
             ->add('description')
         ;
     }

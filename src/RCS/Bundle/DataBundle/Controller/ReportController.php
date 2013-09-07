@@ -27,19 +27,18 @@ class ReportController extends BaseController
      */
     public function indexAction()
     {
-        if(!$this->hasPermission('ROLE_USER'))
-            throw new AccessDeniedException();
+        $GET = $this->getRequest()->query;
 
         $em = $this->getDoctrine()->getManager();
 
-        if($this->hasPermission('ROLE_ADMIN'))
-            $entities = $em->getRepository('RCSDataBundle:Report')->findAll();
-        else
+        if($GET->has('report_id'))
         {
             $entities = $em->getRepository('RCSDataBundle:Report')->findBy(array(
-                'reporter' => $this->getUser()
+                'id' => $GET->get('report_id')
             ));
         }
+        else
+            $entities = $em->getRepository('RCSDataBundle:Report')->findAll();
 
         return array(
             'entities' => $entities,
@@ -248,6 +247,7 @@ class ReportController extends BaseController
             foreach($reports as $report)
             {
                 $data[] = array(
+                    'id' => $report->getId(),
                     'siteId' => ($report->getSite() ? $report->getSite()->getId() : null),
                     'timestamp' => $report->getTimestamp(),
                     'turbidtyNtu' => $report->getTurbidityNtu(),
@@ -258,8 +258,22 @@ class ReportController extends BaseController
                 );
             }
 
+            $sites = $this->em->getRepository('RCS\Bundle\DataBundle\Entity\Site')->findAll();
+
+            $siteList = array();
+
+            foreach($sites as $site)
+            {
+                $siteList[$site->getId()] = array(
+                    'name' => $site->getName(),
+                    'latitude' => $site->getLatitude(),
+                    'longitude' => $site->getLongitude(),
+                );
+            }
+
             return new JsonResponse(array(
-                'data' => $data
+                'data' => $data,
+                'sitesById' => $siteList
             ));
         }
     }
