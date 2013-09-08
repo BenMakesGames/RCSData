@@ -6,22 +6,38 @@
         <p><a href="{{ path('report_edit', { id: entity.id }) }}" class="btn"><span class="icon-pencil"></span> Edit</a></p>
     {% endif %}
 
+    <h2>Basic Information</h2>
     <dl>
         <dt>Site</dt>
         <dd>{% if entity.site %}<a href="{{ path('site_show', { id: entity.site.id }) }}">{{ entity.site.name }}</a>{% else %}&mdash;{% endif %}</dd>
 
-        <dt>Timestamp</dt>
+        <dt>Date &amp; Time</dt>
         <dd>{{ entity.timestamp|date('Y-m-d H:i:s') }}</dd>
 
         <dt>Participants</dt>
         <dd>{{ entity.participants }}</dd>
 
+        <dt>Used RCS Test Kit?</dt>
+        <dd>{{ entity.rcsTestKitUse }}</dd>
+
+        <dt>Comments</dt>
+        <dd>{{ entity.comments }}</dd>
+    </dl>
+
+    <h2>Surroundings</h2>
+    <dl>
         <dt>Recent Precipitation</dt>
-        <dd>{{ entity.precipitationDescription }}</dd>
+        <dd>{{ precipitation_types[entity.precipitationDescription] }}</dd>
 
         <dt>Surrounding Land</dt>
-        <dd>{{ entity.landDescription }}</dd>
+        <dd>{{ land_types[entity.landDescription] }}</dd>
 
+        <dt>Air Temperature</dt>
+        <dd>{{ entity.airTemperatureC }} &deg;C</dd>
+    </dl>
+
+    <h2>River Water</h2>
+    <dl>
         <dt>Turbidity</dt>
         <dd>{{ entity.turbidityNtu }} NTU</dd>
 
@@ -33,11 +49,5 @@
 
         <dt>pH</dt>
         <dd>{{ entity.ph }}</dd>
-
-        <dt>Air Temperature</dt>
-        <dd>{{ entity.airTemperatureC }} &deg;C</dd>
-
-        <dt>Used RCS Test Kit?</dt>
-        <dd>{{ entity.rcsTestKitUse }}</dd>
     </dl>
 {% endblock %}

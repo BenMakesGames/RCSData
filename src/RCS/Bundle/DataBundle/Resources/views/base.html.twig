@@ -28,21 +28,23 @@
         </script>
     </head>
     <body>
-        <nav id="main-nav">
-            <ul>
-                <li class="home"><a href="http://rivannariver.org/">Home</a></li>
-                <li><a href="{{ path('report_map') }}">Map</a></li>
-                <li><a href="{{ path('report_graph') }}">Graph</a></li>
-                <li><a href="{{ path('site') }}">Sites</a></li>
-                <li><a href="{{ path('report') }}">Report Data</a></li>
-            </ul>
-        </nav>
-        {% if app.session.hasFlash('notice') %}
-            <div class="flash-notice">
-                {{ app.session.flash('notice') }}
-            </div>
-        {% endif %}
-        <section id="content">{% block content %}{% endblock %}</section>
-        <footer>&copy; 2013 <a href="http://rivannariver.org">Rivanna Conservation Society</a></footer>
+        <div id="container">
+            <nav id="main-nav">
+                <ul>
+                    <li class="home"><a href="http://rivannariver.org/">Home</a></li>
+                    <li><a href="{{ path('report_map') }}">Map</a></li>
+                    <li><a href="{{ path('report_graph') }}">Graph</a></li>
+                    <li><a href="{{ path('site') }}">Sites</a></li>
+                    <li><a href="{{ path('report') }}">Report Data</a></li>
+                </ul>
+            </nav>
+            {% if app.session.hasFlash('notice') %}
+                <div class="flash-notice">
+                    {{ app.session.flash('notice') }}
+                </div>
+            {% endif %}
+            <section id="content">{% block content %}{% endblock %}</section>
+            <footer>&copy; 2013 <a href="http://rivannariver.org">Rivanna Conservation Society</a></footer>
+        </div>
     </body>
 </html>

@@ -300,6 +300,8 @@ class ReportController extends BaseController
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'land_types' => \RCS\Bundle\DataBundle\Form\Type\LandType::$CHOICES,
+            'precipitation_types' => \RCS\Bundle\DataBundle\Form\Type\PrecipitationType::$CHOICES,
         );
     }
 

@@ -117,6 +117,16 @@ class Report
      */
     private $followedQAProtocols;
 
+    /**
+     * @var string
+     * @ORM\Column(name="comments", type="text", nullable=true)
+     */
+    private $comments;
+
+    /**
+     * @param $field
+     * @return mixed
+     */
     public function get($field)
     {
         return $this->$field;
@@ -385,4 +395,19 @@ class Report
      * @return boolean
      */
     public function getFollowedQAProtocols() { return $this->followedQAProtocols; }
+
+    /**
+     * @param string $comments
+     * @return Report
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComments() { return $this->comments; }
 }

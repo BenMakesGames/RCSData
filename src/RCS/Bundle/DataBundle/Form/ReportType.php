@@ -28,6 +28,7 @@ class ReportType extends AbstractType
             ->add('airTemperatureC', new TemperatureType(), array('label' => 'Air Temperature', 'required' => false))
             ->add('rcsTestKitUse', null, array('label'  => 'Did you use the Water Monitoring test kit provided by RCS for any portion of the testing?', 'required' => false))
             ->add('followedQAProtocols', null, array('label'  => 'Did you follow standard Quality Assurance Protocols when monitoring?', 'required' => false))
+            ->add('comments', null, array('required' => false))
         ;
     }
 
