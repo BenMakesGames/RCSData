@@ -2,8 +2,7 @@
 
 {% block content %}
     <h1>Sites</h1>
-
-    {% if app.user is defined and is_granted('USER_ADMIN') %}
+    {% if app.user is defined and is_granted('ROLE_ADMIN') %}
         <p><a href="{{ path('site_new') }}" class="btn"><span class="icon-plus"></span> New Site</a></p>
     {% endif %}
 
@@ -21,7 +20,7 @@
             <tr>
                 <td>
                     <a href="{{ path('site_show', { 'id': entity.id }) }}"><span class="icon-search"></span></a>
-                    {% if app.user is defined and is_granted('USER_ADMIN') %}
+                    {% if app.user is defined and is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('site_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a>
                     {% endif %}
                 </td>
