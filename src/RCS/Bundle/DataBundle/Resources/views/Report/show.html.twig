@@ -18,10 +18,10 @@
         <dd>{{ entity.participants }}</dd>
 
         <dt>Used RCS Test Kit?</dt>
-        <dd>{{ entity.rcsTestKitUse }}</dd>
+        <dd>{{ entity.rcsTestKitUse ? 'Yes' : 'No' }}</dd>
 
         <dt>Comments</dt>
-        <dd>{{ entity.comments }}</dd>
+        <dd>{% if entity.comments %}{{ entity.comments }}{% else %}<i>No comments</i> {% endif %}</dd>
     </dl>
 
     <h2>Surroundings</h2>
