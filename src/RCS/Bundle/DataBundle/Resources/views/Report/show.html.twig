@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1><a href="{{ path('report') }}">Report Data</a>: {% if entity.site %}{{ entity.site.name }}, {% endif %}{{ entity.timestamp|date('Y-m-d') }}</h1>
-    {% if user is defined and (is_granted('ROLE_ADMIN') or entity.reporter.id == user.id) %}
+    {% if app.user is defined and (is_granted('ROLE_ADMIN') or entity.reporter.id == user.id) %}
         <p><a href="{{ path('report_edit', { id: entity.id }) }}" class="btn"><span class="icon-pencil"></span> Edit</a></p>
     {% endif %}
 

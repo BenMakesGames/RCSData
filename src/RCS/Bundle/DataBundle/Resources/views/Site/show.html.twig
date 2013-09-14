@@ -14,7 +14,7 @@
         <dd>{{ entity.description }}</dd>
     </dl>
 
-    {% if user is defined and is_granted('USER_ADMIN') %}
+    {% if app.user is defined and is_granted('USER_ADMIN') %}
         <li>
             <a href="{{ path('site_edit', { 'id': entity.id }) }}">
                 Edit
