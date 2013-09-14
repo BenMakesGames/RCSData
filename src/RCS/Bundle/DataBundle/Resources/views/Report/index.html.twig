@@ -21,7 +21,7 @@
             <tr>
                 <td>
                     <a href="{{ path('report_show', { 'id': entity.id }) }}"><span class="icon-search"></span></a>
-                    {% if app.user is defined and (is_granted('ROLE_ADMIN') or entity.reporter.id == app.user.id) %}
+                    {% if app.user and (is_granted('ROLE_ADMIN') or entity.reporter.id == app.user.id) %}
                         <a href="{{ path('report_edit', { 'id': entity.id }) }}"><span class="icon-pencil"></span></a>
                     {% endif %}
                 </td>
