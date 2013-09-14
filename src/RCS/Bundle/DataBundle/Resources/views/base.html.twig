@@ -30,6 +30,13 @@
     <body>
         <div id="container">
             <nav id="main-nav">
+                <ul class="pull-right">
+                    {% if app.user %}
+                        <li><a href="{{ path('fos_user_security_logout') }}"><span class="icon-off icon-white"></span> Log Out</a></li>
+                    {% else %}
+                        <li><a href="{{ path('fos_user_security_login') }}"><span class="icon-off icon-white"></span> Log In</a></li>
+                    {% endif %}
+                </ul>
                 <ul>
                     <li class="home"><a href="http://rivannariver.org/">Home</a></li>
                     <li><a href="{{ path('report_map') }}">Map</a></li>
