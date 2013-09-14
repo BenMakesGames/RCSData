@@ -6,7 +6,7 @@ body {
 {
     padding: 10px;
     max-width: 920px;
-    min-width: 620px;
+    min-width: 460px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -68,15 +68,20 @@ hr {
 
 #main-nav
 {
+    background-image: url(/img/rcslogo.png);
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    padding-top: 20px;
+    padding-left: 80px;
     margin: 0;
+    min-height: 33px;
+    overflow: auto;
 }
 
 #main-nav ul
 {
     margin: 0;
     list-style: none;
-    height: 53px;
-    border-bottom: 10px solid #ddd;
 }
 
 #main-nav ul li
@@ -85,18 +90,10 @@ hr {
     float: left;
 }
 
-#main-nav ul li.home
-{
-    background-image: url(/img/rcslogo.png);
-    background-repeat: no-repeat;
-    padding-left: 80px;
-}
-
 #main-nav ul li a
 {
     display: block;
     height: 23px;
-    margin-top: 20px;
     padding: 5px 10px;
     color: #ddd;
 }
@@ -115,6 +112,7 @@ hr {
 
 #content
 {
+    border-top: 10px solid #ddd;
     clear: left;
     margin: 0;
     background-color: #fff;
